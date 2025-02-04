@@ -14,7 +14,13 @@
           <a class="nav-link" href="{% url 'profile' request.user.id %}">Mi Perfil</a>        
          </li>
          <li class="nav-item"> 
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>        
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>                  
+         </li>
+         <li class="nav-item"> 
+          <a class="nav-link" href="{% url 'search' %}">Search</a>        
+         </li>
+         <li class="nav-item"> 
+          <a class="nav-link" href="{% url 'listados' %}">Listados</a>                  
          </li>
          {% else %}
          <li class="nav-item"> 
@@ -23,12 +29,10 @@
          <li class="nav-item"> 
           <a class="nav-link" href="{% url 'login' %}">Login</a>        
          </li>
+         
          {% endif %}
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        
       </div>
     </div>
   </nav>

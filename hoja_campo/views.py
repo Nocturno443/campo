@@ -6,6 +6,7 @@ from .forms import MeepForm, SignUpForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.db.models import Q
 
 
 def home_in(request):
@@ -22,7 +23,7 @@ def home_in(request):
        return render(request, 'home_in.html', {"meeps":meeps, "form":form})
     else:
          messages.success(request, ("Tenes que estar logueado"))
-         return render(request, 'home_in.html', {"meeps":meeps})
+         return render(request, 'login.html', {"meeps":meeps})
 
 
 def home(request):
@@ -32,7 +33,7 @@ def home(request):
 
     else:
          messages.success(request, ("Tenes que estar logueado"))
-         return render(request, 'home.html', {})
+         return render(request, 'login.html', {})
 
     
 
@@ -44,7 +45,7 @@ def profile_list(request):
     else:
         messages.success(request, ("Tenes que estar logueado"))
         #return redirect('home.html') 
-        return render(request, 'home.html', {})
+        return render(request, 'login.html', {})
     
 
 def profile(request, pk):
@@ -68,7 +69,7 @@ def profile(request, pk):
     else:
         messages.success(request, ("Tenes que estar logueado"))
         #return redirect('home.html') 
-        return render(request, 'home.html', {})
+        return render(request, 'login.html', {})
     
 def login_user(request):
     if request.method == "POST":
@@ -77,8 +78,9 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            meeps = Meep.objects.all().order_by("-created_at")
             messages.success(request, ("Te has Logueado.."))
-            return render(request, 'home.html', {})
+            return render(request, 'home.html', {"meeps":meeps})
         else:
             messages.success(request, ("Hubo un error, por favor trate de nuevo.."))
             return render(request, 'login.html', {})   
@@ -88,7 +90,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.success(request, ("Has salido de tu Usuario.."))
-    return render(request, 'home.html', {})
+    return render(request, 'login.html', {})
 
 def register_user(request):
     form = SignUpForm()
@@ -130,7 +132,48 @@ def edit_meep(request, pk):
             return render(request, 'home.html', {})
     else:
          messages.success(request, ("Necesitas loguearte para continuar.."))
-         return render(request, 'home.html', {})   
-            
+         return render(request, 'login.html', {})
+
+def search(request):
+    if request.method == "POST":
+        search = request.POST['search']
+        buscar = request.POST['buscar']
+        if buscar == 'domicilio':
+            searched = Meep.objects.filter(domicilio__icontains=search).order_by("-created_at") 
+        elif buscar == 'encuestadores':
+            searched = Meep.objects.filter(user__username__icontains=search).order_by("-created_at")
+        elif buscar == 'fichas':
+            searched = Meep.objects.filter(ficha__icontains=search).order_by("-created_at")
+        else:
+            searched = Meep.objects.filter(domicilio__icontains=search).order_by("-created_at") 
+        
+        return render(request, 'search.html', {'search':search, 'searched':searched })       
+    else: 
+        return render(request, 'search.html', {})  
+
+
+def listados(request):
+    if request.user.is_authenticated:
+        meeps = Meep.objects.all().order_by("-created_at")
+        return render(request, 'listados.html', {"meeps":meeps})
+
+    else:
+         messages.success(request, ("Tenes que estar logueado"))
+         return render(request, 'login.html', {}) 
+
+
+def numeros(request):
+    if request.user.is_authenticated:
+        efectivas = Meep.objects.filter(visita=9).count()
+        revisitas = Meep.objects.filter(visita=2).count()
+        
+        todas = Meep.objects.count()
+        return render(request, 'numeros.html', {"efectivas":efectivas, "revisitas":revisitas, "todas":todas })
+
+    else:
+         messages.success(request, ("Tenes que estar logueado"))
+         return render(request, 'login.html', {})    
+   
+
 
 # Create your views here.

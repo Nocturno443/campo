@@ -17,11 +17,12 @@
             </br> 
             <div class="col-12">
                  {% for meep in meeps %}
+                 {% if meep.visita == 9 %}
       
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card border-success mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                       <div class="col-md-4">
-                        <img src="{% static 'images/user.png' %}" class="img-fluid rounded-start" alt="Profile_Image">
+                        <i class="bi bi-house-add"></i>
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
@@ -41,6 +42,35 @@
                       </div>
                     </div>
                 </div>
+
+                {% else %}
+
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                    
+                      <i class="bi bi-houses"></i>
+                    
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ meep.ficha }}</h5>
+                        <p class="card-text">Domicilio:{{ meep.domicilio }}</p>
+                        <p class="card-text">Visita:{{ meep.visita }}</p>
+                        <p class="card-text">Revisita:{{ meep.revisita }}</p>
+                        <p class="card-text">Referencia:{{ meep.ficha_ref }}</p>
+                        <p class="card-text">Usuario:{{ meep.user }}</p>
+                        <p class="card-text"><small class="text-body-secondary">fecha:{{ meep.created_at }}</small></p>
+                        {% if request.user.username == profile.user.username %}
+                             
+                          <a href="{% url 'edit_meep' meep.id %}"><button type="button" class="btn btn-outline-success btn-lg">Editar</button></a>     
+
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
                   
                 <br/><br/>
 

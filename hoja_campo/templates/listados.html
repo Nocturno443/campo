@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Listados<h1>
+<div class="container text-center">
+    <div class="row">
+    </br>
+    </br> 
+           
+            <div class="col-12">
+                {% for meep in meeps %}
+                
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">id</th>
+                        <th scope="col">fecha</th>
+                        <th scope="col">domicilio</th>
+                        <th scope="col">encuestador</th>
+                        <th scope="col">visita</th>
+                        <th scope="col">revisita</th>
+                        <th scope="col">ficha</th>
+                        <th scope="col">ficha_ref</th>
+                        <th scope="col">comentarios</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"> </th>
+                        <td>{{ meep.id }}</td>
+                        <td>{{ meep.created_at }}</td>
+                        <td>{{ meep.domicilio }}</td>
+                        <td>{{ meep.user_id }}</td>
+                        <td>{{ meep.visita }}</td>
+                        <td>{{ meep.revisita }}</td>
+                        <td>{{ meep.ficha }}</td>
+                        <td>{{ meep.ficha_ref }}</td>
+                        <td>{{ meep.comentarios }}</td>
+                      </tr>
+                    </tbody>
+                </table>      
+                {% endfor %}
+            </div>    
+            
+                        
+    </div>
+</div>
+
+{% endblock %}
