@@ -37,26 +37,27 @@ ELECCION_FR=[
     (98,'Otra causa'),
 ]
 
-class Publicacion(models.Model):
-    fecha = models.DateTimeField(auto_now_add=True, null=True)
-    domicilio = models.TextField(max_length=200)
-    ficha = models.TextField(max_length=200)
-    visita=models.IntegerField(choices=ELECCION_FR,default=1,null=False,blank=False)
-    revisita=models.IntegerField(choices=ELECCION_FR,default=1,null=False,blank=False)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    comentarios = models.TextField(default=0, null=False,blank=False, max_length=200)
-
-    def __str__(self):
-        return self.domicilio
+class Ficha_Tipo(models.Model):
+    nombre = models.CharField(max_length=50)
     
+    def __str__(self):
+        return self.nombre
+    
+
+class Ficha_Tipo_2(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.nombre
+   
 
 class Meep(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name="meeps", on_delete=models.DO_NOTHING)
     domicilio = models.CharField(max_length=200)
     ficha = models.TextField(max_length=11)
-    visita=models.IntegerField(choices=ELECCION_FR,default=1,null=False,blank=False)
-    revisita=models.IntegerField(choices=ELECCION_FR,default=1,null=False,blank=False)
+    visita = models.ForeignKey(Ficha_Tipo, on_delete=models.CASCADE,null=True)
+    revisita = models.ForeignKey(Ficha_Tipo_2, on_delete=models.CASCADE,null=True)
     ficha_ref = models.TextField(max_length=11,default='')
     comentarios = models.TextField(default=0, null=False,blank=False, max_length=200)
 

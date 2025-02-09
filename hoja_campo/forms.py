@@ -8,7 +8,7 @@ class MeepForm(forms.ModelForm):
    class Meta:
       model=Meep
       
-      fields=['domicilio', 'ficha', 'visita', 'revisita', 'ficha_ref', 'comentarios']
+      fields=['domicilio', 'ficha', 'visita','revisita','ficha_ref', 'comentarios']
       labels={
          'domicilio':'',
          'ficha':'',

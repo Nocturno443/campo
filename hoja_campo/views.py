@@ -13,13 +13,14 @@ def home_in(request):
     if request.user.is_authenticated:
        form = MeepForm(request.POST or None)
        if request.method == "POST":
+            meeps = Meep.objects.all().order_by("-created_at")
             if form.is_valid():
                 meep = form.save(commit=False)
                 meep.user =request.user
                 meep.save()
                 messages.success(request, ("Ingresado!!"))
-                return render(request, 'home.html', {})
-       meeps = Meep.objects.all().order_by("-created_at")
+                return render(request, 'home.html', {"meeps":meeps})
+       
        return render(request, 'home_in.html', {"meeps":meeps, "form":form})
     else:
          messages.success(request, ("Tenes que estar logueado"))
@@ -113,9 +114,10 @@ def register_user(request):
 
 def edit_meep(request, pk):
     if request.user.is_authenticated:
+        meeps = Meep.objects.filter(user_id=pk).order_by("-created_at")
         meep = get_object_or_404(Meep, id=pk)
         if request.user.username == meep.user.username:
-            
+                       
             form = MeepForm(request.POST or None, instance=meep)
             if request.method == "POST":
                 if form.is_valid():
@@ -123,13 +125,13 @@ def edit_meep(request, pk):
                     meep.user =request.user
                     meep.save()
                     messages.success(request, ("Actualizado!!"))
-                    return render(request, 'home.html', {})
+                    return render(request, 'home.html', {"meeps":meeps})
 
             else:
                 return render(request, "edit_meep.html", {'form':form, 'meep':meep})
         else:
             messages.success(request, ("No hicistes esto.."))
-            return render(request, 'home.html', {})
+            return render(request, 'home.html', {"meeps":meeps})
     else:
          messages.success(request, ("Necesitas loguearte para continuar.."))
          return render(request, 'login.html', {})
