@@ -8,7 +8,7 @@
     </br> 
            
             <div class="col-12">
-                {% for meep in meeps %}
+                
                 
                 <table class="table">
                     <thead>
@@ -27,21 +27,23 @@
                       </tr>
                     </thead>
                     <tbody>
+                      {% for meep in meeps %}
                       <tr>
                         <th scope="row"> </th>
                         <td>{{ meep.id }}</td>
                         <td>{{ meep.created_at }}</td>
                         <td>{{ meep.domicilio }}</td>
-                        <td>{{ meep.user_id }}</td>
+                        <td>{{ meep.user }}</td>
                         <td>{{ meep.visita }}</td>
                         <td>{{ meep.revisita }}</td>
                         <td>{{ meep.ficha }}</td>
                         <td>{{ meep.ficha_ref }}</td>
                         <td>{{ meep.comentarios }}</td>
                       </tr>
+                      {% endfor %}
                     </tbody>
                 </table>      
-                {% endfor %}
+                
             </div>    
             
                         

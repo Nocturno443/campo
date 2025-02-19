@@ -12,6 +12,7 @@ from django.db.models import Q
 def home_in(request):
     if request.user.is_authenticated:
        form = MeepForm(request.POST or None)
+       meeps = Meep.objects.all().order_by("-created_at")
        if request.method == "POST":
             meeps = Meep.objects.all().order_by("-created_at")
             if form.is_valid():
