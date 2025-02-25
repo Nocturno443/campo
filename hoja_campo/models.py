@@ -58,6 +58,8 @@ class Meep(models.Model):
     ficha = models.TextField(max_length=11)
     visita = models.ForeignKey(Ficha_Tipo, on_delete=models.CASCADE,null=True)
     revisita = models.ForeignKey(Ficha_Tipo_2, on_delete=models.CASCADE,null=True)
+    revisita_fecha = models.DateField(blank=True, null=True)
+    revisita_usuario = models.TextField(max_length=11,default='')
     ficha_ref = models.TextField(max_length=11,default='')
     comentarios = models.TextField(default=0, null=False,blank=False, max_length=200)
 
@@ -70,6 +72,8 @@ class Meep(models.Model):
             f"{self.visita}:"
             f"{self.ficha_ref}:"
             f"{self.revisita}"
+            f"({self.revisita_fecha:%Y-%m-%d}):"
+            f"{self.revisita_usuario}"
 
 
         )

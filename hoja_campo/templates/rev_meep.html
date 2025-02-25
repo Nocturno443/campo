@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Revisita<h1>
+<div class="container text-center">
+    <div class="row">
+            <div class="col-12">
+              {% if form %}
+              <form method=POST>
+                {% csrf_token %}
+                {{ form.as_p }}
+
+
+                <button type="submit" class="btn btn-danger">Revisitar!</button>
+                 
+              </form>
+              {% endif %}  
+            
+            </div> 
+            </br>
+            </br>
+            </br>
+            </br>
+
+{% endblock %}

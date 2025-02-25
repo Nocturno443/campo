@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404,render,redirect
 from django.forms.models import inlineformset_factory
 from django.contrib import messages
 from .models import Profile, Meep
-from .forms import MeepForm, SignUpForm
+from .forms import MeepForm, SignUpForm, RevMeepForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -136,6 +136,28 @@ def edit_meep(request, pk):
     else:
          messages.success(request, ("Necesitas loguearte para continuar.."))
          return render(request, 'login.html', {})
+    
+def rev_meep(request, pk):
+    if request.user.is_authenticated:
+        meeps = Meep.objects.order_by("-created_at")
+        meep = get_object_or_404(Meep, id=pk)
+                          
+        form = RevMeepForm(request.POST or None, instance=meep)
+        if request.method == "POST":
+            if form.is_valid():
+                    meep = form.save(commit=False)
+                    meep.revisita_usuario = str(request.user)
+                    meep.save()
+                    messages.success(request, ("Revisitado!!"))
+                    return render(request, 'home.html', {"meeps":meeps})
+
+        else:
+            return render(request, "rev_meep.html", {'form':form, 'meep':meep})
+        
+    else:
+         messages.success(request, ("Necesitas loguearte para continuar.."))
+         return render(request, 'login.html', {})
+      
 
 def search(request):
     if request.method == "POST":
