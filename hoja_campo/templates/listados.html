@@ -10,26 +10,24 @@
             <div class="col-12">
                 
                 
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">id</th>
-                        <th scope="col">fecha</th>
-                        <th scope="col">domicilio</th>
-                        <th scope="col">encuestador</th>
-                        <th scope="col">visita</th>
-                        <th scope="col">revisita</th>
-                        <th scope="col">ficha</th>
-                        <th scope="col">ficha_ref</th>
-                        <th scope="col">comentarios</th>
+                        <th>id</th>
+                        <th>fecha</th>
+                        <th>domicilio</th>
+                        <th>encuestador</th>
+                        <th>visita</th>
+                        <th>revisita</th>
+                        <th>ficha</th>
+                        <th>ficha_ref</th>
+                        <th>comentarios</th>
 
                       </tr>
                     </thead>
                     <tbody>
                       {% for meep in meeps %}
                       <tr>
-                        <th scope="row"> </th>
                         <td>{{ meep.id }}</td>
                         <td>{{ meep.created_at }}</td>
                         <td>{{ meep.domicilio }}</td>
